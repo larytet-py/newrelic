@@ -31,7 +31,7 @@ class CSVFile(object):
         '''
         self.file = file
         self.lines_offsets = []
-        header = file.readline()
+        header = file.readline().strip()
         self.col_names = header.split(",")
 
         self.lines_offsets.append(0)
@@ -70,7 +70,8 @@ class CSVFile(object):
         index = 0
         # How to do in Python?
         for col_name in self.col_names:
-            d[col_name] = values[index]
+            value = values[index].strip()
+            d[col_name] = value
             index += 1
         return d
 
@@ -90,8 +91,6 @@ def main():
         csvFile = CSVFile(f)
         d = csvFile.get_line(3)
         print(d)
-    
-
 
 def example():
     """
