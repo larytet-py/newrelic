@@ -41,7 +41,7 @@ class CSVFile(object):
                 break
             self.lines_offsets.append(offset)
 
-    def readline(self, seek) -> Tuple[int, str]:
+    def readline(self, seek: int) -> Tuple[int, str]:
         '''
         Set the file cursor if seek is not negaitve
         Read the line, strip EOL        
@@ -53,7 +53,7 @@ class CSVFile(object):
         line = line.strip()
         return offset, line 
 
-    def verify(self, line_number: int):
+    def verify(self, line_number: int) -> bool:
         if line_number >= len(self.lines_offsets):
             print(f"The {line_number} is too large")
             return False
