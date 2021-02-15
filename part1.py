@@ -34,7 +34,7 @@ class CSVFile(object):
         _, header = self.readline(0)
         self.col_names = header.split(",")
 
-        self.lines_offsets.append(0)
+        self.lines_offsets.append(0)  # header is line offset 0
         while True:
             offset, line = self.readline(-1)
             if line == "":
