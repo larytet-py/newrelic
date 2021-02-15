@@ -31,17 +31,17 @@ class CSVFile(object):
         '''
         self.file = file
         self.lines_offsets = []
-        _, header = self.readline(0)
+        _, header = self._readline(0)
         self.col_names = header.split(",")
 
         self.lines_offsets.append(0)  # header is line offset 0
         while True:
-            offset, line = self.readline(-1)
+            offset, line = self._readline(-1)
             if line == "":
                 break
             self.lines_offsets.append(offset)
 
-    def readline(self, seek: int) -> Tuple[int, str]:
+    def _readline(self, seek: int) -> Tuple[int, str]:
         '''
         Set the file cursor if seek is not negaitve
         Read the line, strip EOL        
@@ -53,7 +53,7 @@ class CSVFile(object):
         line = line.strip()
         return offset, line 
 
-    def verify(self, line_number: int) -> bool:
+    def _verify(self, line_number: int) -> bool:
         if line_number >= len(self.lines_offsets):
             print(f"The {line_number} is too large")
             return False
@@ -70,10 +70,10 @@ class CSVFile(object):
             A dictionary in which the keys are the column header (from the first row)
             and the values are the fields in the specific line.
         """
-        if not self.verify(line_number):
+        if not self._verify(line_number):
             return {}
         offset = self.lines_offsets[line_number]
-        _, line = self.readline(offset)
+        _, line = self._readline(offset)
         values = line.split(",")
 
         d = dict(zip(self.col_names, values)) 
