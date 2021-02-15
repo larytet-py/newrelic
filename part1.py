@@ -31,16 +31,23 @@ class CSVFile(object):
         '''
         self.file = file
         self.lines_offsets = []
-        header = file.readline().strip()
+        _, header = self.readline(0)
         self.col_names = header.split(",")
 
         self.lines_offsets.append(0)
         while True:
-            offset = file.tell()
-            line = file.readline()
+            offset, line = self.readline(-1)
             if line == "":
                 break
             self.lines_offsets.append(offset)
+
+    def readline(self, seek):
+        if seek >= 0:
+            self.file.seek(seek)
+        offset = self.file.tell()
+        line = self.file.readline()
+        line = line.strip()
+        return offset, line 
 
     def verify(self, line_number: int):
         if line_number >= len(self.lines_offsets):
@@ -62,8 +69,7 @@ class CSVFile(object):
         if not self.verify(line_number):
             return {}
         offset = self.lines_offsets[line_number]
-        self.file.seek(offset)
-        line = self.file.readline().strip()
+        _, line = self.readline(offset)
         values = line.split(",")
 
         d = dict(zip(self.col_names, values)) 
