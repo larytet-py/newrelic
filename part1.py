@@ -20,7 +20,7 @@ To save time you should assume:
 
 import sys
 from io import StringIO, IOBase
-from typing import Dict, Iterator
+from typing import Dict, Iterator, Tuple
 
 
 class CSVFile(object):
@@ -41,7 +41,11 @@ class CSVFile(object):
                 break
             self.lines_offsets.append(offset)
 
-    def readline(self, seek):
+    def readline(self, seek) -> Tuple[int, str]:
+        '''
+        Set the file cursor if seek is not negaitve
+        Read the line, strip EOL        
+        '''
         if seek >= 0:
             self.file.seek(seek)
         offset = self.file.tell()
