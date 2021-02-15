@@ -59,20 +59,14 @@ class CSVFile(object):
             A dictionary in which the keys are the column header (from the first row)
             and the values are the fields in the specific line.
         """
-        d = {}
         if not self.verify(line_number):
-            return d
+            return {}
         offset = self.lines_offsets[line_number]
         self.file.seek(offset)
-        line = self.file.readline()
+        line = self.file.readline().strip()
         values = line.split(",")
 
-        index = 0
-        # How to do in Python?
-        for col_name in self.col_names:
-            value = values[index].strip()
-            d[col_name] = value
-            index += 1
+        d = dict(zip(self.col_names, values)) 
         return d
 
     def get_iter(self, line_number: int) -> Iterator[Dict]:
