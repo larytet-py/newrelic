@@ -66,7 +66,9 @@ class CSVFile(object):
         self.file.seek(offset)
         line = self.file.readline()
         values = line.split(",")
+
         index = 0
+        # How to do in Python?
         for col_name in self.col_names:
             d[col_name] = values[index]
             index += 1
