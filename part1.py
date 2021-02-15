@@ -44,7 +44,7 @@ class CSVFile(object):
     def _readline(self, seek: int) -> Tuple[int, str]:
         '''
         Set the file cursor if seek is not negaitve
-        Read the line, strip EOL        
+        Read the next line, strip EOL        
         '''
         if seek >= 0:
             self.file.seek(seek)
