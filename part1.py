@@ -42,6 +42,15 @@ class CSVFile(object):
                 break
             self.lines_offsets.append(offset)
 
+    def verify(self, line_number: int):
+        if line_number >= len(self.lines_offsets):
+            print(f"The {line_number} is too large")
+            return False
+        if line_number == 0:
+            print(f"The {line_number} is a file header")
+            return False
+        return True
+
     def get_line(self, line_number: int) -> Dict:
         """Get a specific line in the CSV file
         Args:
@@ -51,11 +60,7 @@ class CSVFile(object):
             and the values are the fields in the specific line.
         """
         d = {}
-        if line_number >= len(self.lines_offsets):
-            print(f"The {line_number} is too large")
-            return d
-        if line_number == 0:
-            print(f"The {line_number} is a file header")
+        if not self.verify(line_number):
             return d
         offset = self.lines_offsets[line_number]
         self.file.seek(offset)
